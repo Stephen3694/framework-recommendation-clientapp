@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing Framework Advisor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Testing Framework Advisor</h1>
+            <p>Answer a few questions about your project to receive personalized testing framework recommendations</p>
+        </div>
+        
+        <form id="applicationForm">
+            <div class="form-group">
+                <label for="applicationType">What type of application are you testing?</label>
+                <span class="form-help">This helps us determine the most appropriate testing approach</span>
+                <select id="applicationType" class="form-control" required>
+                    <option value="" disabled selected>Select application type</option>
+                    <option value="web_ui">Web UI application</option>
+                    <option value="rest_api">REST API services</option>
+                    <option value="fullstack">Full-stack application (UI + API)</option>
+                    <option value="mobile">Mobile application</option>
+                    <option value="microservices">Microservices architecture</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="teamExpertise">What is your team's primary programming expertise?</label>
+                <span class="form-help">We'll recommend tools based on your team's strongest skills</span>
+                <select id="teamExpertise" class="form-control" required>
+                    <option value="" disabled selected>Select primary expertise</option>
+                    <option value="java">Java</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="typescript">TypeScript</option>
+                    <option value="python">Python</option>
+                    <option value="csharp">C#</option>
+                    <option value="mixed">Mixed expertise</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Do you have any existing test frameworks for this application?</label>
+                <span class="form-help">Let us know if you're already using testing frameworks</span>
+                <div class="radio-group" style="margin-bottom: 15px;">
+                    <div class="radio-option" style="min-width: 100px;">
+                        <input type="radio" id="existingYes" name="existingFramework" value="yes">
+                        <label for="existingYes">Yes</label>
+                    </div>
+                    <div class="radio-option" style="min-width: 100px;">
+                        <input type="radio" id="existingNo" name="existingFramework" value="no">
+                        <label for="existingNo">No</label>
+                    </div>
+                </div>
+                <div id="existingFrameworksContainer" style="display: none;">
+                    <div style="margin-bottom: 15px;">
+                        <label for="existingFrameworks">What existing framework are you using?</label>
+                        <span class="form-help">This helps us determine if you should continue with or migrate from your current framework</span>
+                        <select id="existingFrameworks" class="form-control">
+                            <option value="" disabled selected>Select existing framework</option>
+                            <option value="selenium">Selenium</option>
+                            <option value="unified_selenium">Unified Selenium</option>
+                            <option value="playwright">Playwright</option>
+                            <option value="cypress">Cypress</option>
+                            <option value="karate">Karate</option>
+                            <option value="restassured">RestAssured</option>
+                            <option value="pytest">PyTest</option>
+                            <option value="testng">TestNG</option>
+                            <option value="jest">Jest</option>
+                            <option value="mocha">Mocha</option>
+                            <option value="mstest">MSTest</option>
+                            <option value="nunit">NUnit</option>
+                            <option value="xunit">xUnit</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="existingTestCount">How many tests do you currently have?</label>
+                        <span class="form-help">This helps us determine if you should stick with your existing framework</span>
+                        <input type="number" id="existingTestCount" class="form-control" placeholder="e.g., 50" min="0">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>What are your primary testing priorities? <span class="form-help">(Select up to 2)</span></label>
+                <span class="form-help">Select the key priorities that matter most for your project</span>
+                <div class="radio-group">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="priority1" name="priority" value="speed">
+                        <label for="priority1">Test execution speed</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="priority2" name="priority" value="reliability">
+                        <label for="priority2">Test reliability</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="priority3" name="priority" value="maintenance">
+                        <label for="priority3">Low maintenance</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="priority4" name="priority" value="ci_integration">
+                        <label for="priority4">CI/CD integration</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="priority5" name="priority" value="readability">
+                        <label for="priority5">Test readability</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="priority6" name="priority" value="parallel">
+                        <label for="priority6">Parallel execution</label>
+                    </div>
+                </div>
+                <span class="form-help" id="priorityWarning" style="color: #ff5c5c; display: none;">Please select no more than 2 priorities</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="projectScope">What is the scope of your testing project?</label>
+                <span class="form-help">This helps determine the complexity of the testing framework needed</span>
+                <select id="projectScope" class="form-control" required>
+                    <option value="" disabled selected>Select project scope</option>
+                    <option value="small">Small project (single application)</option>
+                    <option value="medium">Medium project (multiple related components)</option>
+                    <option value="large">Large enterprise project (multiple teams/apps)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="repoStrategy">How will your test code be organized?</label>
+                <span class="form-help">Your repository strategy affects test organization and maintenance</span>
+                <select id="repoStrategy" class="form-control" required>
+                    <option value="" disabled selected>Select repository strategy</option>
+                    <option value="monorepo">Monorepo (all code in one repository)</option>
+                    <option value="multi_repo">Multiple repositories (separate repos per service)</option>
+                    <option value="test_repo">Dedicated test repository</option>
+                </select>
+            </div>
+            
+            <div class="btn-container">
+                <button type="submit" id="recommendBtn" class="btn">Get Recommendations</button>
+            </div>
+            
+            <div id="notification" class="notification"></div>
+        </form>
+        
+        <div id="recommendationPanel" class="recommendation-panel">
+            <h3>Recommended Testing Stack</h3>
+            
+            <div id="frameworkSection" class="recommendation-section">
+                <h4>Primary Testing Framework</h4>
+                <ul id="frameworkList"></ul>
+            </div>
+            
+            <div id="languageSection" class="recommendation-section">
+                <h4>Recommended Language</h4>
+                <ul id="languageList"></ul>
+            </div>
+            
+            <div id="toolsSection" class="recommendation-section">
+                <h4>Supporting Tools & Libraries</h4>
+                <ul id="toolsList"></ul>
+            </div>
+            
+            <div id="bestPracticesSection" class="recommendation-section">
+                <h4>Best Practices</h4>
+                <ul id="practicesList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
